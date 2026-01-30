@@ -1,0 +1,25 @@
+{
+	"name": "nthu-course-grade-data-downloader",
+	"version": "1.0.0",
+	"description": "down course grade data from NTHU system",
+	"main": "dist/main.js",
+	"type": "module",
+	"scripts": {
+		"start": "ts-node main.ts",
+		"build": "tsc",
+		"watch": "tsc -w"
+	},
+	"dependencies": {
+		"@types/inquirer": "^8.2.11",
+		"axios": "^1.13.4",
+		"fs": "^0.0.1-security",
+		"inquirer": "^12.7.0",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.9.3"
+	},
+	"devDependencies": {
+		"@types/inquirer": "^9.0.9",
+		"@types/node": "^25.1.0",
+		"util": "^0.12.5"
+	}
+}
