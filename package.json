@@ -2,6 +2,23 @@
 	"name": "nthu-course-grade-data-downloader",
 	"version": "1.0.0",
 	"description": "down course grade data from NTHU system",
+	"keywords": [
+		"course",
+		"grades",
+		"nthu",
+		"nthuee",
+		"nthucs"
+	],
+	"homepage": "https://github.com/edge-runner913/nthu-course-grade-data-downloader#readme",
+	"bugs": {
+		"url": "https://github.com/edge-runner913/nthu-course-grade-data-downloader/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/edge-runner913/nthu-course-grade-data-downloader.git"
+	},
+	"license": "ISC",
+	"author": "edge-runner913",
 	"main": "dist/main.js",
 	"type": "module",
 	"scripts": {
@@ -10,16 +27,13 @@
 		"watch": "tsc -w"
 	},
 	"dependencies": {
-		"@types/inquirer": "^8.2.11",
 		"axios": "^1.13.4",
-		"fs": "^0.0.1-security",
-		"inquirer": "^12.7.0",
-		"ts-node": "^10.9.2",
-		"typescript": "^5.9.3"
+		"inquirer": "^12.7.0"
 	},
 	"devDependencies": {
 		"@types/inquirer": "^9.0.9",
 		"@types/node": "^25.1.0",
-		"util": "^0.12.5"
+		"ts-node": "^10.9.2",
+		"typescript": "^5.9.3"
 	}
 }
