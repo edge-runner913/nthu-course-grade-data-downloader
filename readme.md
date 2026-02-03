@@ -1,25 +1,56 @@
-# ~~中~~(X)清華大學校務系統 - 課程歷年成績資料下載器 NTHU Course Grade Data Downloader
+# ~~中~~清華大學校務系統 - 課程歷年成績資料下載器 NTHU Course Grade Data Downloader
 
-## 前置要求
+## 簡介
+
+使用`TypeScript`編寫的歷年成績資料下載器。
+
+可自動登入清華大學校務系統，並下載指定學年度、學期的課程成績資料。
+
+調用`Python`庫`Dddd.py`來自動處理驗證碼圖片。
+
+## 前置需求
+
+僅需安裝`node.js`與`uv`套件管理器即可。
+
+※**不需要安裝Python**
+
+### TypeScript
 
 安裝[node.js](https://nodejs.org/zh-tw/download/)（建議版本 18 以上）。
 
-使用TypeScript編寫。
+### Python
+
+需要安裝[uv (python 套件管理工具)](https://docs.astral.sh/uv/)，請依uv網站指示安裝。
+
+首次執行會自動安裝需要的套件，檔案較大，請耐心等待。
+
+>[!WARNING]
+>`uv`創建的虛擬環境自帶Python 3.10，因此也**不需要安裝Python**。
 
 ## 使用說明
 
 >[!NOTE]
-> ~~懶得跑腳本的話，就直接去`data`資料夾拿檔案就好了~~
+>~~懶得跑腳本的話，就直接去`data`資料夾拿檔案就好了~~
 
 整個資料夾下載下來後，
 
-登入校務系統，從網址獲取你的ACIXSTORE值。
-
-將ACIXSTORE值用雙引號包起來，放在`NTHU.ts`的開頭處：
+可以在main.ts中，將`你的帳號`與`你的密碼`分別替換成你的帳號與密碼，如下所示：
 
 ```typescript
-const ACIXSTORE = "你的ACIXSTORE值";
+const account: string = '你的帳號';
+const password: string = '你的密碼';
 ```
+
+或將`.env.example`改名為`.env`檔案放在專案根目錄，如下輸入你的帳號與密碼：
+
+```env
+ACCOUNT=你的帳號
+PASSWORD=你的密碼
+```
+
+或是執行時不提供，會要求輸入。
+
+---
 
 開啟命令提示字元或終端機，`cd`進入專案資料夾後
 
@@ -27,11 +58,13 @@ const ACIXSTORE = "你的ACIXSTORE值";
 
 `npm i`
 
-`npx tsc`
+`npm start`
 
-`npm start` (或 `node main.js`)
+如果沒有提供，則會先詢問你的帳號密碼。
 
-若沒有在檔案設定你的ACIXSTORE，則執行後，會先讓你貼上你的ACIXSTORE值。
+之後會自動進行驗證碼驗證。
+
+如果失敗，則須自行點開根目錄下的`captcha.png`或`captcha_1.png`查看驗證碼，並輸入驗證碼內容。
 
 然後會再詢問要下載哪一學年、哪一學期的課程資料。
 

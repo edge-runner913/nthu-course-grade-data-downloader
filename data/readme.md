@@ -1,4 +1,4 @@
-# ~~中~~(X)清華大學校務系統 - 課程歷年成績資料下載器 NTHU Course Grade Data Downloader
+# ~~中~~清華大學校務系統 - 課程歷年成績資料下載器 NTHU Course Grade Data Downloader
 
 ~~恭喜你省下了跑腳本架環境的時間~~
 

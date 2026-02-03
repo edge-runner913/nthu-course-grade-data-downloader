@@ -2,10 +2,13 @@ import axios from "axios";
 import { TextDecoder } from "util";
 import fs from "fs";
 import inquirer from "inquirer";
+import { NTHU_login } from "nthu-auto-login-and-acixstore-getter"; // 自己寫的登入系統
+import 'dotenv/config';
 
 // ================ 手動設定區域 =================
 
-const ACIXSTORE = '你的ACIXSTORE值';	// 預設token，請自行從瀏覽器的 cookie 取得
+const account: string = '你的帳號';
+const password: string = '你的密碼';
 
 // ================== configs ===================
 const year: number = 114;				// 預設民國年
@@ -16,15 +19,23 @@ const path = './data/';					// 儲存資料的路徑
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function main(token: string, a: number, b: 10 | 20, skip?: boolean) {
-	if (token === '' || token === '你的ACIXSTORE值') {
-		console.warn('請先設定 ACIXSTORE 值');
-		({ token } = await inquirer.prompt([{
-			type: "input",
-			name: "token",
-			message: "請貼上 ACIXSTORE 值",
-		}]));
-	}
+async function main(account: string, password: string, a: number, b: 10 | 20, skip?: boolean) {
+	console.log("=== 自動腳本啟動 (版本 1.1.0 - 整合自動登入) ===");
+
+	const token = await NTHU_login(account, password)
+		.catch(async (err) => {
+			console.error('❌ 登入或驗證碼獲取失敗，無法繼續：\n', err);
+			process.exit(1); // 改天失敗率太高再把底下取消註釋 給人手動輸入token
+			//console.info('請手動輸入 ACIXSTORE：');
+			//const { token } = await inquirer.prompt([{
+			//	type: "input",
+			//	name: "token",
+			//	message: "請貼上 ACIXSTORE 值",
+			//}]);
+			//return token;
+		});
+	console.info('\n' + '========= 登入成功！ =========' + '\n');
+
 	// 確保 data 資料夾存在
 	if (!fs.existsSync(path)) {
 		fs.mkdirSync(path);
@@ -88,7 +99,7 @@ async function main(token: string, a: number, b: 10 | 20, skip?: boolean) {
 
 	try {
 		console.info(`正在查詢： ${year} 學年度 ${semester === 10 ? '上學期' : '下學期'} 的資料...`);
-		const response = (await axios.post(url, payload, { headers, responseType: 'arraybuffer' }))
+		const response = (await axios.post(url, payload, { headers, responseType: 'arraybuffer' }));
 
 		const decoder = new TextDecoder('big5');
 		const finalResult = decoder.decode(response.data);
@@ -109,11 +120,11 @@ async function main(token: string, a: number, b: 10 | 20, skip?: boolean) {
 		fs.writeFileSync(path + name, head + finalResult);
 		console.info(`已將結果存成 ${name} 。`);
 	} catch (err) {
-		console.error('錯誤：' + err);
+		console.error('錯誤：', err);
 	}
 }
 
-await main(ACIXSTORE, year, semester, skipConfirm);
+await main(account, password, year, semester, skipConfirm);
 
 /*
 // 批次下載 101-114 年的資料
