@@ -4,7 +4,13 @@ import fs from "fs";
 import inquirer from "inquirer";
 import { NTHU_login } from "nthu-auto-login-and-acixstore-getter"; // 自己寫的登入系統
 import 'dotenv/config';
-import { time } from "console";
+import file from './dept.json' with { type: "json" };
+
+interface Choices {
+	name: string;
+	value: string;
+}
+const dept = file as Choices[]; // 讀取開課單位列表
 
 // ================ 手動設定區域 =================
 
@@ -153,7 +159,7 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 	}
 }
 async function main(account: string, password: string) {
-	console.log("=== 自動腳本啟動 (版本 1.1.1 - 整合自動登入) ===");
+	console.log("=== 自動腳本啟動 (版本 1.1.2 - 獲取加退選人數) ===");
 
 	const token = NTHU_login(account, password) // TODO 解決內部print影響inquirer
 		.catch(async (err) => {
@@ -196,10 +202,12 @@ async function main(account: string, password: string) {
 		}
 		case 'Enrollment': {
 			const { courseId } = await inquirer.prompt([{
-				type: "input",
+				type: "list",
 				name: "courseId",
 				message: "請輸入開課單位 (例如：GE)",
+				choices: dept,
 				default: "GE",
+				pageSize: 25,
 			}]);
 			await enrollment(token, courseId);
 			break;
