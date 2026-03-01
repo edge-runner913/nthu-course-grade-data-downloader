@@ -19,22 +19,7 @@ const path = './data/';					// 儲存資料的路徑
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function main(account: string, password: string, a: number, b: 10 | 20, skip?: boolean) {
-	console.log("=== 自動腳本啟動 (版本 1.1.0 - 整合自動登入) ===");
-
-	const token = await NTHU_login(account, password)
-		.catch(async (err) => {
-			console.error('❌ 登入或驗證碼獲取失敗，無法繼續：\n', err);
-			process.exit(1); // 改天失敗率太高再把底下取消註釋 給人手動輸入token
-			//console.info('請手動輸入 ACIXSTORE：');
-			//const { token } = await inquirer.prompt([{
-			//	type: "input",
-			//	name: "token",
-			//	message: "請貼上 ACIXSTORE 值",
-			//}]);
-			//return token;
-		});
-	console.info('\n' + '========= 登入成功！ =========' + '\n');
+async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 | 20, skip?: boolean) {
 
 	// 確保 data 資料夾存在
 	if (!fs.existsSync(path)) {
@@ -45,7 +30,7 @@ async function main(account: string, password: string, a: number, b: 10 | 20, sk
 	const { confirmation } = (skip) ? { confirmation: true } : await inquirer.prompt([{
 		type: "list",
 		name: "confirmation",
-		message: `確定查詢： ${a} 學年度 ${b === 10 ? '上學期' : '下學期'} 的資料？`,
+		message: `是否查詢： ${a} 學年度 ${b === 10 ? '上學期' : '下學期'} 的資料？`,
 		choices: [
 			{ name: "是", value: true },
 			{ name: "否 (重新輸入)", value: false },
@@ -86,7 +71,7 @@ async function main(account: string, password: string, a: number, b: 10 | 20, sk
 
 	const url = "https://www.ccxp.nthu.edu.tw/ccxp/INQUIRE/JH/8/8.4/8.4.2/JH84202.php"
 	const payload = new FormData();
-	payload.append('ACIXSTORE', token);
+	payload.append('ACIXSTORE', await ACIXSTORE);
 	payload.append('qyt', `${year}|${semester}`);
 	payload.append('kwc', '');      // TODO 課程名稱，要用 Big5 編碼
 	payload.append('kwt', '');      // TODO 教師姓名，要用 Big5 編碼
@@ -102,7 +87,7 @@ async function main(account: string, password: string, a: number, b: 10 | 20, sk
 		const response = (await axios.post(url, payload, { headers, responseType: 'arraybuffer' }));
 
 		const decoder = new TextDecoder('big5');
-		const finalResult = decoder.decode(response.data);
+		const finalResult = decoder.decode(response.data); // TODO 把回上一頁 Back 的按鈕拿掉
 
 		if (!finalResult.includes('課程')) {
 			if (finalResult.includes('session is interrupted')) {
@@ -123,9 +108,24 @@ async function main(account: string, password: string, a: number, b: 10 | 20, sk
 		console.error('錯誤：', err);
 	}
 }
+async function main(account: string, password: string) {
+	console.log("=== 自動腳本啟動 (版本 1.1.1 - 整合自動登入) ===");
 
-await main(account, password, year, semester, skipConfirm);
-
+	const token = NTHU_login(account, password) // TODO 解決內部print影響inquirer
+		.catch(async (err) => {
+			console.error('❌ 登入或驗證碼獲取失敗，無法繼續：\n', err);
+			process.exit(1); // 改天失敗率太高再把底下取消註釋 給人手動輸入token
+			//console.info('請手動輸入 ACIXSTORE：');
+			//const { token } = await inquirer.prompt([{
+			//	type: "input",
+			//	name: "token",
+			//	message: "請貼上 ACIXSTORE 值",
+			//}]);
+			//return token;
+		});
+	console.info('\n' + '========= 登入成功！ =========' + '\n');
+	await gradeData(token, year, semester, skipConfirm);
+}
 /*
 // 批次下載 101-114 年的資料
 const arr: Array<10 | 20> = [10, 20];
@@ -136,3 +136,5 @@ for (let i = 108; i <= 114; i++) {
 	}
 }
 */
+
+await main(account, password);
