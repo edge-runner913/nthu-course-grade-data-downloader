@@ -4,6 +4,7 @@ import fs from "fs";
 import inquirer from "inquirer";
 import { NTHU_login } from "nthu-auto-login-and-acixstore-getter"; // 自己寫的登入系統
 import 'dotenv/config';
+import { time } from "console";
 
 // ================ 手動設定區域 =================
 
@@ -19,8 +20,52 @@ const path = './data/';					// 儲存資料的路徑
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 | 20, skip?: boolean) {
+const decoder = new TextDecoder('big5'); // NTHU 的系統使用 Big5 編碼
 
+async function enrollment(ACIXSTORE: string | Promise<string>, courseId: string) {
+	const url = "https://www.ccxp.nthu.edu.tw/ccxp/COURSE/JH/7/7.2/7.2.7/JH727002.php"
+	const name = `NTHU_${courseId}_enrollment.html`;
+
+	//const payload = new FormData();
+	//payload.append('ACIXSTORE', await ACIXSTORE);
+	//payload.append('select', courseId);
+	//payload.append('act', 'ckey'); // IDK what this does, but it's required
+	//payload.append('Submit', '%BDT%A9w+go');
+	const payload = `ACIXSTORE=${await ACIXSTORE}&select=${courseId}&act=1&Submit=%BDT%A9w+go`;
+
+	const headers = {
+		Accept: "application/json, text/plain, */*",
+	};
+
+	try {
+		console.info(`正在查詢 ${courseId} 的選課人數...`);
+		const response = (await axios.post(url, payload, {
+			headers,
+			responseType: 'arraybuffer',
+			timeout: 20000
+		}));
+
+		const finalResult = decoder.decode(response.data); // TODO 把回上一頁 Back 的按鈕拿掉
+
+
+		if (finalResult.includes('session is interrupted')) {
+			throw new Error('ACIXSTORE 無效或已過期，請重新獲取。');
+		}
+
+		const head = `<!DOCTYPE html>` +
+			`<html>` +
+			`<head>` +
+			`<meta charset="UTF-8">` +
+			`</head>` +
+			`</html>`;
+		fs.writeFileSync(name, head + finalResult);
+		console.info(`已將結果存成 ${name} 。`);
+	} catch (err) {
+		console.error('錯誤：', err);
+	}
+}
+
+async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 | 20, skip?: boolean) {
 	// 確保 data 資料夾存在
 	if (!fs.existsSync(path)) {
 		fs.mkdirSync(path);
@@ -86,7 +131,6 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 		console.info(`正在查詢： ${year} 學年度 ${semester === 10 ? '上學期' : '下學期'} 的資料...`);
 		const response = (await axios.post(url, payload, { headers, responseType: 'arraybuffer' }));
 
-		const decoder = new TextDecoder('big5');
 		const finalResult = decoder.decode(response.data); // TODO 把回上一頁 Back 的按鈕拿掉
 
 		if (!finalResult.includes('課程')) {
@@ -124,17 +168,43 @@ async function main(account: string, password: string) {
 			//return token;
 		});
 	console.info('\n' + '========= 登入成功！ =========' + '\n');
-	await gradeData(token, year, semester, skipConfirm);
-}
-/*
-// 批次下載 101-114 年的資料
-const arr: Array<10 | 20> = [10, 20];
-for (let i = 108; i <= 114; i++) {
-	for (const semester of arr) {
-		await main(ACIXSTORE, i, semester, true);
-		await delay(500); // 避免請求過於頻繁
+	const { mode } = await inquirer.prompt([{
+		type: "list",
+		name: "mode",
+		message: `請選擇運行模式：`,
+		choices: [
+			{ name: "下載成績資料", value: 'GradeData' },
+			{ name: "下載所有成績資料", value: 'AllGradeData' },
+			{ name: "查詢選課人數", value: 'Enrollment' },
+		],
+		pageSize: 5,
+	}]);
+
+	switch (mode) {
+		case 'GradeData':
+			await gradeData(token, year, semester, skipConfirm);
+			break;
+		case 'AllGradeData': { // 批次下載 109-114 年的資料
+			const arr: Array<10 | 20> = [10, 20];
+			for (let i = 109; i <= 114; i++) {
+				for (const semester of arr) {
+					await gradeData(token, i, semester, true);
+					await delay(500); // 避免請求過於頻繁
+				}
+			}
+			break;
+		}
+		case 'Enrollment': {
+			const { courseId } = await inquirer.prompt([{
+				type: "input",
+				name: "courseId",
+				message: "請輸入開課單位 (例如：GE)",
+				default: "GE",
+			}]);
+			await enrollment(token, courseId);
+			break;
+		}
 	}
 }
-*/
 
 await main(account, password);
