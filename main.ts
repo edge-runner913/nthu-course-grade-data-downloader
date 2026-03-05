@@ -5,6 +5,12 @@ import inquirer from "inquirer";
 import { NTHU_login } from "nthu-auto-login-and-acixstore-getter"; // 自己寫的登入系統
 import 'dotenv/config';
 import file from './dept.json' with { type: "json" };
+import {
+	HTMLOptionElement,
+	HTMLTableCellElement,
+	HTMLTableElement,
+	parseHTML,
+} from "linkedom/worker";
 
 interface Choices {
 	name: string;
@@ -135,12 +141,12 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 
 	try {
 		console.info(`正在查詢： ${year} 學年度 ${semester === 10 ? '上學期' : '下學期'} 的資料...`);
-		const response = (await axios.post(url, payload, { headers, responseType: 'arraybuffer' }));
+		const response = (await axios.post(url, payload, { headers, responseType: 'arraybuffer' })
+			.then((arrayBuffer) => new TextDecoder("big5").decode(new Uint8Array(arrayBuffer.data)),
+			)); // TODO 把回上一頁 Back 的按鈕拿掉
 
-		const finalResult = decoder.decode(response.data); // TODO 把回上一頁 Back 的按鈕拿掉
-
-		if (!finalResult.includes('課程')) {
-			if (finalResult.includes('session is interrupted')) {
+		if (!response.includes('課程')) {
+			if (response.includes('session is interrupted')) {
 				throw new Error('ACIXSTORE 無效或已過期，請重新獲取。');
 			}
 			throw new Error('查詢失敗。請檢查 ACIXSTORE、學年或學期是否有誤。');
@@ -152,7 +158,7 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 			`<meta charset="UTF-8">` +
 			`</head>` +
 			`</html>`;
-		fs.writeFileSync(path + name, head + finalResult);
+		fs.writeFileSync(path + name, head + response);
 		console.info(`已將結果存成 ${name} 。`);
 	} catch (err) {
 		console.error('錯誤：', err);

@@ -29,6 +29,7 @@
 	"dependencies": {
 		"axios": "^1.13.4",
 		"inquirer": "^12.7.0",
+		"linkedom": "^0.18.12",
 		"nthu-auto-login-and-acixstore-getter": "github:edge-runner913/NTHU-Auto-Login-and-ACIXSTORE-Getter",
 		"tsx": "^4.21.0"
 	},
