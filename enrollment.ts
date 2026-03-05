@@ -34,12 +34,6 @@ export async function enrollment(ACIXSTORE: string | Promise<string>, courseId: 
 
 		loader();
 
-		const head = `<!DOCTYPE html>` +
-			`<html>` +
-			`<head>` +
-			`<meta charset="UTF-8">` +
-			`</head>` +
-			`</html>`;
 		fs.writeFileSync(name, response.replace('charset=big5', 'charset=UTF-8')); // 直接把 big5 換成 UTF-8 就好啦
 		console.info(`已將結果存成 ${name} 。`);
 	} catch (err) {

@@ -106,12 +106,6 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 
 		const format = formatCourses(response); // TODO 格式化資料，抽取成 JSON
 
-		const head = `<!DOCTYPE html>` +
-			`<html>` +
-			`<head>` +
-			`<meta charset="UTF-8">` +
-			`</head>` +
-			`</html>`;
 		fs.writeFileSync(path + name, response.replace('charset=big5', 'charset=UTF-8'));
 		console.info(`已將結果存成 ${name} 。`);
 		return format;
