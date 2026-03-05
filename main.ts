@@ -50,17 +50,15 @@ async function enrollment(ACIXSTORE: string | Promise<string>, courseId: string)
 	};
 
 	try {
+		const loader = loading(); // 開始 loading 動畫
 		console.info(`正在查詢 ${courseId} 的選課人數...`);
 		const response = (await axios.post(url, payload, {
 			headers,
 			responseType: 'arraybuffer',
 			timeout: 20000
-		}));
+		}).then((arrayBuffer) => decoder.decode(new Uint8Array(arrayBuffer.data)))); // TODO 把回上一頁 Back 的按鈕拿掉
 
-		const finalResult = decoder.decode(response.data); // TODO 把回上一頁 Back 的按鈕拿掉
-
-
-		if (finalResult.includes('session is interrupted')) {
+		if (response.includes('session is interrupted')) {
 			throw new Error('ACIXSTORE 無效或已過期，請重新獲取。');
 		}
 
@@ -70,7 +68,7 @@ async function enrollment(ACIXSTORE: string | Promise<string>, courseId: string)
 			`<meta charset="UTF-8">` +
 			`</head>` +
 			`</html>`;
-		fs.writeFileSync(name, head + finalResult);
+		fs.writeFileSync(name, head + response);
 		console.info(`已將結果存成 ${name} 。`);
 	} catch (err) {
 		console.error('錯誤：', err);
@@ -140,10 +138,14 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 	};
 
 	try {
+		const loader = loading(); // 開始 loading 動畫
+
 		console.info(`正在查詢： ${year} 學年度 ${semester === 10 ? '上學期' : '下學期'} 的資料...`);
-		const response = (await axios.post(url, payload, { headers, responseType: 'arraybuffer' })
-			.then((arrayBuffer) => new TextDecoder("big5").decode(new Uint8Array(arrayBuffer.data)),
-			)); // TODO 把回上一頁 Back 的按鈕拿掉
+		const response = await axios.post(url, payload, { headers, responseType: 'arraybuffer' })
+			.then((arrayBuffer) => decoder.decode(new Uint8Array(arrayBuffer.data))); // TODO 把回上一頁 Back 的按鈕拿掉
+
+		clearInterval(loader);
+		console.info(`\r✅ 資料下載完成！`);
 
 		if (!response.includes('課程')) {
 			if (response.includes('session is interrupted')) {
@@ -151,6 +153,8 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 			}
 			throw new Error('查詢失敗。請檢查 ACIXSTORE、學年或學期是否有誤。');
 		}
+
+		const format = formatCourses(response); // TODO 格式化資料，抽取成 JSON
 
 		const head = `<!DOCTYPE html>` +
 			`<html>` +
@@ -160,10 +164,63 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 			`</html>`;
 		fs.writeFileSync(path + name, head + response);
 		console.info(`已將結果存成 ${name} 。`);
+
+		await format;
 	} catch (err) {
 		console.error('錯誤：', err);
 	}
 }
+
+async function formatCourses(html: string) {
+	const doc = parseHTML(html).document;
+	const tables = doc.querySelectorAll("table");
+	const table = Array.from(tables).find((n) =>
+		(n.textContent?.trim() ?? "").startsWith("科號"),
+	) as HTMLTableElement | undefined;
+
+	const rows = Array.from(table?.querySelectorAll("tr") ?? []);
+	const departmentCourses: Course[] = []; //TODO 寫個 interface 定義資料結構
+
+	for (let i = 2; i < rows.length; i++) {
+		const row = rows[i];
+		const cells = Array.from(row.querySelectorAll("td")) as HTMLTableCellElement[]; // 每一格
+
+		if (cells.length < 8) continue;
+
+		// 直接依序取出 Sub-表格展開後的對應位置
+		const courseId = cells[0].textContent?.trim();
+		const courseName = cells[1].textContent?.trim();
+		const teacher = cells[2].textContent?.trim();
+		const enrollment = parseInt(cells[3].textContent?.trim() || "0");
+
+		const gpa_average = parseFloat(cells[4].textContent?.trim()) || null; // GPA Avg
+		const gpa_stddev = parseFloat(cells[5].textContent?.trim()) || null;  // GPA Std Dev
+		const pct_average = parseFloat(cells[6].textContent?.trim()) || null; // Score Avg
+		const pct_stddev = parseFloat(cells[7].textContent?.trim()) || null;  // Score Std Dev
+
+		departmentCourses.push({
+			Semester: "",
+			'Course No': courseId,
+			'Course Name': courseName,
+			Teacher: teacher,
+			Enrollment: enrollment.toString(),
+			'Avg GPA': gpa_average,
+			'Std Dev (GPA)': gpa_stddev,
+			'Avg (Percent)': pct_average,
+			'Std Dev (Percent)': pct_stddev
+		});
+	}
+	fs.writeFileSync(path + "formatted_courses.json", JSON.stringify(departmentCourses, null, 4));
+}
+
+function loading(hint = "正在從 NTHU 下載資料...") {
+	const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+	let i = 0;
+	return setInterval(() => {
+		process.stdout.write(`\r\r${frames[i++ % frames.length]} ${hint}`);
+	}, 100);
+}
+
 async function main(account: string, password: string) {
 	console.log("=== 自動腳本啟動 (版本 1.1.2 - 獲取加退選人數) ===");
 
@@ -222,3 +279,17 @@ async function main(account: string, password: string) {
 }
 
 await main(account, password);
+
+
+interface Course {
+	Semester: string
+	'Course No': string
+	'Course Name': string
+	Teacher: string
+	Enrollment: string
+	'Avg GPA': value
+	'Std Dev (GPA)': value
+	'Avg (Percent)': value
+	'Std Dev (Percent)': value
+}
+type value = null | number;
