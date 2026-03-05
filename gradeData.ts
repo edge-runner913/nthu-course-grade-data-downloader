@@ -93,8 +93,9 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 		const response = await axios.post(url, payload, { headers, responseType: 'arraybuffer' })
 			.then((arrayBuffer) => decoder.decode(new Uint8Array(arrayBuffer.data))); // TODO 把回上一頁 Back 的按鈕拿掉
 
-		clearInterval(loader);
-		console.info(`\r✅ 資料下載完成！` + ' '.repeat(20)); // 清除 loading 字串
+		loader();
+
+
 
 		if (!response.includes('課程')) {
 			if (response.includes('session is interrupted')) {
@@ -111,7 +112,7 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 			`<meta charset="UTF-8">` +
 			`</head>` +
 			`</html>`;
-		fs.writeFileSync(path + name, head + response);
+		fs.writeFileSync(path + name, response.replace('charset=big5', 'charset=UTF-8'));
 		console.info(`已將結果存成 ${name} 。`);
 		return format;
 	} catch (err) {
