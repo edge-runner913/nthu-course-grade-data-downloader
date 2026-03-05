@@ -17,11 +17,7 @@ interface Choices {
 }
 const dept = file as Choices[]; // 讀取開課單位列表
 
-
-
-
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 
 async function main(account: string, password: string) {
 	console.log("=== 自動腳本啟動 (版本 1.1.2 - 獲取加退選人數) ===");
@@ -47,7 +43,7 @@ async function main(account: string, password: string) {
 		choices: [
 			{ name: "下載成績資料", value: 'GradeData' },
 			{ name: "下載所有成績資料", value: 'AllGradeData' },
-			{ name: "查詢選課人數", value: 'Enrollment' },
+			{ name: "查詢目前選課人數", value: 'Enrollment' },
 		],
 		pageSize: 5,
 	}]);
@@ -55,7 +51,7 @@ async function main(account: string, password: string) {
 	switch (mode) {
 		case 'GradeData': {
 			const format = await gradeData(token, year, semester, skipConfirm);
-			fs.writeFileSync(path + "formatted_courses.json", JSON.stringify(format, null, 4));
+			fs.writeFileSync(path + `formatted_courses_${year}.json`, JSON.stringify(format, null, 4));
 			break;
 		}
 		case 'AllGradeData': { // 批次下載 109-114 年的資料
@@ -80,7 +76,8 @@ async function main(account: string, password: string) {
 				default: "GE",
 				pageSize: 25,
 			}]);
-			await enrollment(token, courseId);
+			const courses = await enrollment(token, courseId);
+			fs.writeFileSync(path + `enrollment_${courseId}.json`, JSON.stringify(courses, null, 4));
 			break;
 		}
 	}

@@ -104,7 +104,7 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 			throw new Error('查詢失敗。請檢查 ACIXSTORE、學年或學期是否有誤。');
 		}
 
-		const format = formatCourses(response); // TODO 格式化資料，抽取成 JSON
+		const format = formatCourses(response);
 
 		fs.writeFileSync(path + name, response.replace('charset=big5', 'charset=UTF-8'));
 		console.info(`已將結果存成 ${name} 。`);
@@ -130,7 +130,6 @@ export async function formatCourses(html: string, dataArray: Course[] = []): Pro
 
 		if (cells.length < 8) continue;
 
-		// 直接依序取出 Sub-表格展開後的對應位置
 		const courseId = cells[0].textContent?.trim();
 		const courseName = cells[1].textContent?.trim();
 		const teacher = cells[2].textContent?.trim();
