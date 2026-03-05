@@ -171,7 +171,7 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 	}
 }
 
-async function formatCourses(html: string): Promise<Course[]> {
+async function formatCourses(html: string, dataArray: Course[] = []): Promise<Course[]> {
 	const doc = parseHTML(html).document;
 	const tables = doc.querySelectorAll("table");
 	const table = Array.from(tables).find((n) =>
@@ -179,7 +179,6 @@ async function formatCourses(html: string): Promise<Course[]> {
 	) as HTMLTableElement | undefined;
 
 	const rows = Array.from(table?.querySelectorAll("tr") ?? []);
-	const departmentCourses: Course[] = []; //TODO 寫個 interface 定義資料結構
 
 	for (let i = 2; i < rows.length; i++) {
 		const row = rows[i];
@@ -198,7 +197,7 @@ async function formatCourses(html: string): Promise<Course[]> {
 		const pct_average = parseFloat(cells[6].textContent?.trim()) || null; // Score Avg
 		const pct_stddev = parseFloat(cells[7].textContent?.trim()) || null;  // Score Std Dev
 
-		departmentCourses.push({
+		dataArray.push({
 			Semester: "",
 			'Course No': courseId,
 			'Course Name': courseName,
@@ -210,7 +209,7 @@ async function formatCourses(html: string): Promise<Course[]> {
 			'Std Dev (Percent)': pct_stddev
 		});
 	}
-	return departmentCourses;
+	return dataArray;
 }
 
 function loading(hint = "正在從 NTHU 下載資料...") {
