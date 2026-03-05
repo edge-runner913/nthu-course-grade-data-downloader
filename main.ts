@@ -165,13 +165,13 @@ async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 |
 		fs.writeFileSync(path + name, head + response);
 		console.info(`已將結果存成 ${name} 。`);
 
-		await format;
+		fs.writeFileSync(path + "formatted_courses.json", JSON.stringify(await format, null, 4));
 	} catch (err) {
 		console.error('錯誤：', err);
 	}
 }
 
-async function formatCourses(html: string) {
+async function formatCourses(html: string): Promise<Course[]> {
 	const doc = parseHTML(html).document;
 	const tables = doc.querySelectorAll("table");
 	const table = Array.from(tables).find((n) =>
@@ -210,7 +210,7 @@ async function formatCourses(html: string) {
 			'Std Dev (Percent)': pct_stddev
 		});
 	}
-	fs.writeFileSync(path + "formatted_courses.json", JSON.stringify(departmentCourses, null, 4));
+	return departmentCourses;
 }
 
 function loading(hint = "正在從 NTHU 下載資料...") {
