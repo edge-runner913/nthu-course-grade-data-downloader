@@ -25,3 +25,7 @@ export const loading = (hint = "正在從 NTHU 下載資料...") => {
 		clearInterval(loader);
 	};
 }
+export interface Choices {
+	name: string;
+	value: string;
+}

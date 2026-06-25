@@ -3,4 +3,5 @@ node_modules
 .vscode
 *.env
 *.js
-captcha*.png
+captcha*
+test*

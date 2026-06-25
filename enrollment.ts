@@ -18,6 +18,7 @@ export interface Enrollment {
 	Time: string
 	Size: value
 	Current: number
+	Freshman?: number
 	Remaining: value
 	Random: number
 }
@@ -45,7 +46,7 @@ export async function enrollment(ACIXSTORE: string | Promise<string>, courseId: 
 		const response = (await axios.post(url, payload, {
 			headers,
 			responseType: 'arraybuffer',
-			timeout: 20000
+			timeout: 60000
 		}).then((arrayBuffer) => decoder.decode(new Uint8Array(arrayBuffer.data)))); // TODO 把回上一頁 Back 的按鈕拿掉
 
 		if (response.includes('session is interrupted')) {
@@ -54,7 +55,8 @@ export async function enrollment(ACIXSTORE: string | Promise<string>, courseId: 
 
 		loader();
 
-		const format = formatCourses(response);
+		const isGE = (courseId === "GE") || (courseId === "GEC");
+		const format = formatCourses(response, isGE);
 
 		fs.writeFileSync(name, response.replace('charset=big5', 'charset=UTF-8')); // 直接把 big5 換成 UTF-8 就好啦
 		console.info(`已將結果存成 ${name} 。`);
@@ -64,7 +66,7 @@ export async function enrollment(ACIXSTORE: string | Promise<string>, courseId: 
 	}
 }
 
-export async function formatCourses(html: string, dataArray: Array<Enrollment> = [])
+export async function formatCourses(html: string, isGE: boolean = false, dataArray: Array<Enrollment> = [])
 	: Promise<Enrollment[]> {
 	const doc = parseHTML(html).document;
 	const tables = doc.querySelectorAll("table");
@@ -91,10 +93,13 @@ export async function formatCourses(html: string, dataArray: Array<Enrollment> =
 		const teacher = teacherHtml.split(/<br>/i)[0].replace(/<[^>]*>?/gm, '').trim();
 
 		const ifNaN = <T = null>(str: string, other: T | null = null) => isNaN(parseFloat(str)) ? other : parseFloat(str);
-		const ge = courseNo.includes("GE") ? 1 : 0; // GE 課程會多一欄「通識類別」
+
+		// 有些核心通識，課號不一定包含 "GE"
+		const thirdCellText = cells[3]?.textContent?.trim() || "";
+		const ge = (isGE || thirdCellText.startsWith("向度") || courseNo.includes("GE"))? 1 : 0;
 		let GE_Category: number | null | undefined;
 		if (ge) {
-			const GE_CategoryStr = cells[3].textContent?.trim() || "";
+			const GE_CategoryStr = thirdCellText;
 			switch (GE_CategoryStr) {
 				case "向度1": GE_Category = 1; break;
 				case "向度2": GE_Category = 2; break;

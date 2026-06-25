@@ -1,6 +1,6 @@
 import fs from "fs";
 import inquirer from "inquirer";
-import { NTHU_login } from "nthu-auto-login-and-acixstore-getter"; // 自己寫的登入系統
+import { NTHU_login, pyOCR } from "nthu-auto-login-and-acixstore-getter"; // 自己寫的登入系統
 import 'dotenv/config';
 import file from './dept.json' with { type: "json" };
 import {
@@ -44,6 +44,7 @@ async function main(account: string, password: string) {
 			{ name: "下載成績資料", value: 'GradeData' },
 			{ name: "下載所有成績資料", value: 'AllGradeData' },
 			{ name: "查詢目前選課人數", value: 'Enrollment' },
+			{ name: "測試模式 (批次下載所有開課單位的選課人數)", value: 'test' },
 		],
 		pageSize: 5,
 	}]);
@@ -80,9 +81,20 @@ async function main(account: string, password: string) {
 			fs.writeFileSync(path + `enrollment_${courseId}.json`, JSON.stringify(courses, null, 4));
 			break;
 		}
+		case "test": {
+			const tasks: Promise<void>[] = [];
+			for (const course of dept) {
+				tasks.push(
+					enrollment(token, course.value).then(
+						(courses) => fs.writeFileSync("./test/" + `enrollment_${course.value}.json`, JSON.stringify(courses, null, 4))
+					)
+				)
+				await delay(500); // 避免請求過於頻繁
+			}
+			await Promise.all(tasks);
+			break;
+		}
 	}
 }
 
 await main(account, password);
-
-
