@@ -24,7 +24,7 @@ export interface Course {
 }
 type value = null | number;
 
-export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 | 20, skip?: boolean): Promise<Course[]> {
+export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 | 20, skip?: boolean): Promise<{ format: Course[], year: number, semester: 10 | 20 }> {
 	// 確保 data 資料夾存在
 	if (!fs.existsSync(path)) {
 		fs.mkdirSync(path);
@@ -43,7 +43,7 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 	}]);
 
 	// 彌彰看到會扣光分數的三元運算子
-	const [year, semester]: Array<number> = (confirmation) ? [a, b] : await (async () => {
+	const [year, semester]: [number, 10 | 20] = (confirmation) ? [a, b] : await (async () => {
 		const { year, semester } = await inquirer.prompt([
 			{
 				type: "number",
@@ -109,10 +109,14 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 
 		fs.writeFileSync(path + name, response.replace('charset=big5', 'charset=UTF-8'));
 		console.info(`已將結果存成 ${name} 。`);
-		return format;
+		return { 
+			format: await format,
+			year,
+			semester
+		};
 	} catch (err) {
 		console.error('錯誤：', err);
-		return [];
+		return { format: [], year: a, semester: b };
 	}
 }
 

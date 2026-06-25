@@ -29,3 +29,5 @@ export interface Choices {
 	name: string;
 	value: string;
 }
+
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

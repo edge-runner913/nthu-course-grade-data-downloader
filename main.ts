@@ -1,6 +1,6 @@
 import fs from "fs";
 import inquirer from "inquirer";
-import { NTHU_login, pyOCR } from "nthu-auto-login-and-acixstore-getter"; // 自己寫的登入系統
+import { NTHU_login } from "nthu-auto-login-and-acixstore-getter"; // 自己寫的登入系統
 import 'dotenv/config';
 import file from './dept.json' with { type: "json" };
 import {
@@ -9,15 +9,13 @@ import {
 	Course
 } from "./gradeData.js";
 import { enrollment } from "./enrollment.js";
-import { year, semester, skipConfirm, path, decoder, loading, account, password } from "./utils.js";
+import { year, semester, skipConfirm, path, account, password, delay } from "./utils.js";
 
 interface Choices {
 	name: string;
 	value: string;
 }
 const dept = file as Choices[]; // 讀取開課單位列表
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function main(account: string, password: string) {
 	console.log("=== 自動腳本啟動 (版本 1.1.2 - 獲取加退選人數) ===");
@@ -51,8 +49,8 @@ async function main(account: string, password: string) {
 
 	switch (mode) {
 		case 'GradeData': {
-			const format = await gradeData(token, year, semester, skipConfirm);
-			fs.writeFileSync(path + `formatted_courses_${year}.json`, JSON.stringify(format, null, 4));
+			const {format, year: y, semester: s} = await gradeData(token, year, semester, skipConfirm);
+			fs.writeFileSync(path + `courses_${y}_${s}.json`, JSON.stringify(format, null, 4));
 			break;
 		}
 		case 'AllGradeData': { // 批次下載 109-114 年的資料
@@ -60,7 +58,7 @@ async function main(account: string, password: string) {
 			const courses: Course[] = [];
 			for (let i = 109; i <= 114; i++) {
 				for (const semester of arr) {
-					const courseData = await gradeData(token, i, semester, true);
+					const courseData = (await gradeData(token, i, semester, true)).format;
 					courses.push(...courseData);
 					await delay(500); // 避免請求過於頻繁
 				}
