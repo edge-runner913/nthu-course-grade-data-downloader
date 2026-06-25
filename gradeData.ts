@@ -87,13 +87,14 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 	};
 
 	try {
-		const loader = loading(); // 開始 loading 動畫
+		const loader_remove = loading(); // 開始 loading 動畫
 
 		console.info(`正在查詢： ${year} 學年度 ${semester === 10 ? '上學期' : '下學期'} 的資料...`);
 		const response = await axios.post(url, payload, { headers, responseType: 'arraybuffer' })
-			.then((arrayBuffer) => decoder.decode(new Uint8Array(arrayBuffer.data))); // TODO 把回上一頁 Back 的按鈕拿掉
+			.then((arrayBuffer) => decoder.decode(new Uint8Array(arrayBuffer.data)))
+			.then((html) 		=> html.replace(/<p><input[^>]*Back[^<]*><\/p>/g, '')); // 把回上一頁 Back 的按鈕拿掉
 
-		loader();
+		loader_remove();
 
 
 
