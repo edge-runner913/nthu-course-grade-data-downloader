@@ -50,7 +50,7 @@ async function main(account: string, password: string) {
 	switch (mode) {
 		case 'GradeData': {
 			const {format, year: y, semester: s} = await gradeData(token, year, semester, skipConfirm);
-			fs.writeFileSync(path + `courses_${y}_${s}.json`, JSON.stringify(format, null, 4));
+			fs.writeFileSync(path + `courses_${y}_${s / 10}.json`, JSON.stringify(format, null, 4));
 			break;
 		}
 		case 'AllGradeData': { // 批次下載 109-114 年的資料

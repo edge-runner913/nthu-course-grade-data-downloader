@@ -145,8 +145,10 @@ export async function formatCourses(html: string, dataArray: Course[] = []): Pro
 		const pct_average = parseFloat(cells[6].textContent?.trim()) || null; // Score Avg
 		const pct_stddev = parseFloat(cells[7].textContent?.trim()) || null;  // Score Std Dev
 
+		const semester = courseId.slice(0, 3) + '-' + courseId[3];
+
 		dataArray.push({
-			Semester: "",
+			Semester: semester,
 			'Course No': courseId,
 			'Course Name': courseName,
 			Teacher: teacher,
