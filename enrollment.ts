@@ -111,6 +111,7 @@ export async function formatCourses(html: string, isGE: boolean = false, dataArr
 
 		const time = cells[3 + ge].textContent?.trim() || "";
 		const limitStr = ifNaN(cells[4 + ge].textContent?.trim());
+		const freshmanStr = <number>ifNaN(cells[4 + ge].textContent?.trim().split('/')[1] ?? 0); // 新生保留
 		const currentStr = <number>ifNaN(cells[5 + ge].textContent?.trim(), 0);
 		const remainingStr = ifNaN(cells[6 + ge].textContent?.trim());
 		const randomStr = <number>ifNaN(cells[7 + ge].textContent?.trim(), 0);
@@ -123,6 +124,7 @@ export async function formatCourses(html: string, isGE: boolean = false, dataArr
 			Time: time,
 			Size: limitStr,
 			Current: currentStr,
+			Freshman: freshmanStr,
 			Remaining: remainingStr,
 			Random: randomStr,
 		});
