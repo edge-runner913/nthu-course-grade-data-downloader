@@ -22,7 +22,7 @@ export interface Course {
 	'Avg (Percent)': value
 	'Std Dev (Percent)': value
 }
-type value = null | number;
+type value = "" | number;
 
 export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 | 20, skip?: boolean): Promise<{ format: Course[], year: number, semester: 10 | 20 }> {
 	// 確保 data 資料夾存在
@@ -140,10 +140,10 @@ export async function formatCourses(html: string, dataArray: Course[] = []): Pro
 		const teacher = cells[2].textContent?.trim();
 		const enrollment = parseInt(cells[3].textContent?.trim() || "0");
 
-		const gpa_average = parseFloat(cells[4].textContent?.trim()) || null; // GPA Avg
-		const gpa_stddev = parseFloat(cells[5].textContent?.trim()) || null;  // GPA Std Dev
-		const pct_average = parseFloat(cells[6].textContent?.trim()) || null; // Score Avg
-		const pct_stddev = parseFloat(cells[7].textContent?.trim()) || null;  // Score Std Dev
+		const gpa_average = parseFloat(cells[4].textContent?.trim()) || ""; // GPA Avg
+		const gpa_stddev  = parseFloat(cells[5].textContent?.trim()) || ((gpa_average !== "") ? 0 : ""); // GPA Std Dev
+		const pct_average = parseFloat(cells[6].textContent?.trim()) || ""; // Score Avg
+		const pct_stddev  = parseFloat(cells[7].textContent?.trim()) || ((pct_average !== "") ? 0 : ""); // Score Std Dev
 
 		const semester = courseId.slice(0, 3) + '-' + courseId[3];
 
