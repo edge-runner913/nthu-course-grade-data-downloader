@@ -39,17 +39,17 @@ async function main(account: string, password: string) {
 		name: "mode",
 		message: `請選擇運行模式：`,
 		choices: [
-			{ name: "下載成績資料", value: 'GradeData' },
-			{ name: "下載所有成績資料", value: 'AllGradeData' },
-			{ name: "查詢目前選課人數", value: 'Enrollment' },
-			{ name: "測試模式 (批次下載所有開課單位的選課人數)", value: 'test' },
+			{ name: "下載學期成績資料", value: 'GradeData' },
+			{ name: "下載成績資料(歷年各學期)", value: 'AllGradeData' },
+			{ name: "查詢科系選課人數", value: 'Enrollment' },
+			{ name: "查詢目前選課人數(所有開課單位)", value: 'AllEnrollment' },
 		],
 		pageSize: 5,
 	}]);
 
 	switch (mode) {
 		case 'GradeData': {
-			const {format, year: y, semester: s} = await gradeData(token, year, semester, skipConfirm);
+			const { format, year: y, semester: s } = await gradeData(token, year, semester, skipConfirm);
 			fs.writeFileSync(path + `courses_${y}_${s / 10}.json`, JSON.stringify(format, null, 4));
 			break;
 		}
@@ -61,6 +61,7 @@ async function main(account: string, password: string) {
 					const courseData = (await gradeData(token, i, semester, true)).format;
 					courses.push(...courseData);
 					await delay(500); // 避免請求過於頻繁
+					fs.writeFileSync(path + `courses_${i}_${semester / 10}.json`, JSON.stringify(courseData, null, 4));
 				}
 			}
 			fs.writeFileSync(path + "full_courses.json", JSON.stringify(courses, null, 4));
@@ -79,7 +80,7 @@ async function main(account: string, password: string) {
 			fs.writeFileSync(path + `enrollment_${courseId}.json`, JSON.stringify(courses, null, 4));
 			break;
 		}
-		case "test": {
+		case "AllEnrollment": {
 			const tasks: Promise<void>[] = [];
 			for (const course of dept) {
 				tasks.push(

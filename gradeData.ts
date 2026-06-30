@@ -17,12 +17,11 @@ export interface Course {
 	'Course Name': string
 	Teacher: string
 	Enrollment: string
-	'Avg GPA': value
-	'Std Dev (GPA)': value
-	'Avg (Percent)': value
-	'Std Dev (Percent)': value
+	'Avg GPA'?: number
+	'Std Dev (GPA)'?: number
+	'Avg (Percent)'?: number
+	'Std Dev (Percent)'?: number
 }
-type value = "" | number;
 
 export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 | 20, skip?: boolean): Promise<{ format: Course[], year: number, semester: 10 | 20 }> {
 	// 確保 data 資料夾存在
@@ -92,7 +91,7 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 		console.info(`正在查詢： ${year} 學年度 ${semester === 10 ? '上學期' : '下學期'} 的資料...`);
 		const response = await axios.post(url, payload, { headers, responseType: 'arraybuffer' })
 			.then((arrayBuffer) => decoder.decode(new Uint8Array(arrayBuffer.data)))
-			.then((html) 		=> html.replace(/<p><input[^>]*Back[^<]*><\/p>/g, '')); // 把回上一頁 Back 的按鈕拿掉
+			.then((html) => html.replace(/<p><input[^>]*Back[^<]*><\/p>/g, '')); // 把回上一頁 Back 的按鈕拿掉
 
 		loader_remove();
 
@@ -105,12 +104,12 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 			throw new Error('查詢失敗。請檢查 ACIXSTORE、學年或學期是否有誤。');
 		}
 
-		const format = formatCourses(response);
+		const format = await formatCourses(response);
 
 		fs.writeFileSync(path + name, response.replace('charset=big5', 'charset=UTF-8'));
 		console.info(`已將結果存成 ${name} 。`);
-		return { 
-			format: await format,
+		return {
+			format,
 			year,
 			semester
 		};
@@ -140,10 +139,10 @@ export async function formatCourses(html: string, dataArray: Course[] = []): Pro
 		const teacher = cells[2].textContent?.trim();
 		const enrollment = parseInt(cells[3].textContent?.trim() || "0");
 
-		const gpa_average = parseFloat(cells[4].textContent?.trim()) || ""; // GPA Avg
-		const gpa_stddev  = parseFloat(cells[5].textContent?.trim()) || ((gpa_average !== "") ? 0 : ""); // GPA Std Dev
-		const pct_average = parseFloat(cells[6].textContent?.trim()) || ""; // Score Avg
-		const pct_stddev  = parseFloat(cells[7].textContent?.trim()) || ((pct_average !== "") ? 0 : ""); // Score Std Dev
+		const gpa_average = parseFloat(cells[4].textContent?.trim()) || undefined; // GPA Avg
+		const gpa_stddev = parseFloat(cells[5].textContent?.trim()) || ((gpa_average !== undefined) ? 0 : undefined); // GPA Std Dev
+		const pct_average = parseFloat(cells[6].textContent?.trim()) || undefined; // Score Avg
+		const pct_stddev = parseFloat(cells[7].textContent?.trim()) || ((pct_average !== undefined) ? 0 : undefined); // Score Std Dev
 
 		const semester = courseId.slice(0, 3) + '-' + courseId[3];
 
