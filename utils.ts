@@ -31,3 +31,11 @@ export interface Choices {
 }
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const extractText = (cell: { innerHTML: string | null }) => {
+	return cell.innerHTML
+		?.replaceAll('<br>', '\n')
+		.replace(/<br\s*\/?>/gi, '\n')
+		.replace(/<[^>]*>?/gm, '')      // 移除其他 HTML 標籤
+		.trim() || "";
+};

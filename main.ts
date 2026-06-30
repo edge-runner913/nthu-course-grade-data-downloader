@@ -40,9 +40,9 @@ async function main(account: string, password: string) {
 		message: `請選擇運行模式：`,
 		choices: [
 			{ name: "下載學期成績資料", value: 'GradeData' },
-			{ name: "下載成績資料(歷年各學期)", value: 'AllGradeData' },
+			{ name: "下載歷年各學期成績資料", value: 'AllGradeData' },
 			{ name: "查詢科系選課人數", value: 'Enrollment' },
-			{ name: "查詢目前選課人數(所有開課單位)", value: 'AllEnrollment' },
+			{ name: "查詢所有開課單位選課人數", value: 'AllEnrollment' },
 		],
 		pageSize: 5,
 	}]);

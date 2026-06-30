@@ -9,7 +9,7 @@ import {
 	HTMLTableElement,
 	parseHTML,
 } from "linkedom/worker";
-import { path, decoder, loading } from "./utils.js";
+import { path, decoder, loading, extractText } from "./utils.js";
 
 export interface Course {
 	Semester: string
@@ -134,15 +134,15 @@ export async function formatCourses(html: string, dataArray: Course[] = []): Pro
 
 		if (cells.length < 8) continue;
 
-		const courseId = cells[0].textContent?.trim();
-		const courseName = cells[1].textContent?.trim();
-		const teacher = cells[2].textContent?.trim();
-		const enrollment = parseInt(cells[3].textContent?.trim() || "0");
+		const courseId = extractText(cells[0]);
+		const courseName = extractText(cells[1]);
+		const teacher = extractText(cells[2]);
+		const enrollment = parseInt(extractText(cells[3]) || "0");
 
-		const gpa_average = parseFloat(cells[4].textContent?.trim()) || undefined; // GPA Avg
-		const gpa_stddev = parseFloat(cells[5].textContent?.trim()) || ((gpa_average !== undefined) ? 0 : undefined); // GPA Std Dev
-		const pct_average = parseFloat(cells[6].textContent?.trim()) || undefined; // Score Avg
-		const pct_stddev = parseFloat(cells[7].textContent?.trim()) || ((pct_average !== undefined) ? 0 : undefined); // Score Std Dev
+		const gpa_average = parseFloat(extractText(cells[4])) || undefined; // GPA Avg
+		const gpa_stddev = parseFloat(extractText(cells[5])) || ((gpa_average !== undefined) ? 0 : undefined); // GPA Std Dev
+		const pct_average = parseFloat(extractText(cells[6])) || undefined; // Score Avg
+		const pct_stddev = parseFloat(extractText(cells[7])) || ((pct_average !== undefined) ? 0 : undefined); // Score Std Dev
 
 		const semester = courseId.slice(0, 3) + '-' + courseId[3];
 
