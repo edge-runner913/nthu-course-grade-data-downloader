@@ -272425,6 +272425,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420AIA 500100",
+        "Course Name": "智慧製造執行系統--成大\nIntelligent Manufacturing Execution Systems",
+        "Teacher": "成大陳裕民",
+        "Enrollment": "10",
+        "Avg (Percent)": 90.8,
+        "Std Dev (Percent)": 9.23
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420AIA 500300",
         "Course Name": "生成式AI應用系統與工程--成大\nGenerative AI Application Systems and Engineering--NCKU",
         "Teacher": "成大莊坤達",
@@ -272461,6 +272470,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420ANTH654200",
+        "Course Name": "人類學方法論\nAnthropological Methodology",
+        "Teacher": "林浩立\nLIN, HAO-LI",
+        "Enrollment": "10",
+        "Avg (Percent)": 86.5,
+        "Std Dev (Percent)": 3.72
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420ANTH670700",
         "Course Name": "都市人類學\nUrban Anthropology",
         "Teacher": "許瀞文\nCHING-WEN HSU",
@@ -272485,6 +272503,15 @@
         "Enrollment": "3",
         "Avg GPA": 3.7,
         "Std Dev (GPA)": 0
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420ANTH679300",
+        "Course Name": "大洋洲民族誌\nEthnographies of Oceania",
+        "Teacher": "林浩立\nLIN, HAO-LI",
+        "Enrollment": "4",
+        "Avg (Percent)": 91,
+        "Std Dev (Percent)": 2.35
     },
     {
         "Semester": "114-2",
@@ -273604,6 +273631,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420CHEM332000",
+        "Course Name": "無機化學二\nInorganic Chemistry (II)",
+        "Teacher": "蔡易州\nTSAI, YI-CHOU",
+        "Enrollment": "100",
+        "Avg (Percent)": 57.09,
+        "Std Dev (Percent)": 21.43
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420CHEM463000",
         "Course Name": "書報討論二(有機無機組)\nSeminar-Organic and Inorganic Divisions (II)",
         "Teacher": "蔡易州\nTSAI, YI-CHOU",
@@ -274267,6 +274303,15 @@
         "Enrollment": "25",
         "Avg GPA": 4.06,
         "Std Dev (GPA)": 0.28
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420CL  102044",
+        "Course Name": "大學中文\nCollege Chinese",
+        "Teacher": "沈旻儒\nSHEN, MIN-RU",
+        "Enrollment": "23",
+        "Avg GPA": 2.77,
+        "Std Dev (GPA)": 1.53
     },
     {
         "Semester": "114-2",
@@ -275113,6 +275158,15 @@
         "Enrollment": "66",
         "Avg GPA": 2.47,
         "Std Dev (GPA)": 1.25
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420CS  135602",
+        "Course Name": "計算機程式設計二\nIntroduction to Programming (II)",
+        "Teacher": "楊舜仁\nYANG, SHUN-REN",
+        "Enrollment": "98",
+        "Avg (Percent)": 71.59,
+        "Std Dev (Percent)": 20.48
     },
     {
         "Semester": "114-2",
@@ -276700,6 +276754,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420EE  490000",
+        "Course Name": "專題研究\nUndergraduate Research",
+        "Teacher": "指導教授",
+        "Enrollment": "9",
+        "Avg GPA": 4.17,
+        "Std Dev (GPA)": 0.15
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420EE  525000",
         "Course Name": "超大型積體電路設計\nVLSI Design",
         "Teacher": "謝志成\nHSIEH, CHIH CHENG",
@@ -277231,6 +277294,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420ENE 525000",
+        "Course Name": "微波電路分析及設計\nAnalysis and Design of Microwave Circuits",
+        "Teacher": "徐碩鴻\nHSU, SHUO-HUNG",
+        "Enrollment": "38",
+        "Avg (Percent)": 84,
+        "Std Dev (Percent)": 6.34
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420ENE 531000",
         "Course Name": "微電子工程\nSilicon Processing Technology for Microelectronics",
         "Teacher": "葉昭輝\nYEH, CHAO-HUI",
@@ -277345,6 +277417,15 @@
         "Enrollment": "133",
         "Avg (Percent)": 83.29,
         "Std Dev (Percent)": 9.62
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420ESS 225000",
+        "Course Name": "電子學二\nElectronics II",
+        "Teacher": "盧志文\nLU, CHIH-WEN",
+        "Enrollment": "98",
+        "Avg (Percent)": 80.5,
+        "Std Dev (Percent)": 12.69
     },
     {
         "Semester": "114-2",
@@ -277498,6 +277579,15 @@
         "Enrollment": "37",
         "Avg (Percent)": 82.03,
         "Std Dev (Percent)": 12.08
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420ESS 480000",
+        "Course Name": "奈微米系統工程原理\nPrinciples of Nano and Micro Systems Engineering",
+        "Teacher": "曾繁根\nTSENG, FAN-GANG\r\n\t\t\t\t\t\t\t\t蘇育全\nSU, YU-CHUAN\r\n\t\t\t\t\t\t\t\t王本誠\nWANG, PEN-CHENG",
+        "Enrollment": "84",
+        "Avg (Percent)": 79.37,
+        "Std Dev (Percent)": 7.1
     },
     {
         "Semester": "114-2",
@@ -279391,6 +279481,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420GE  153600",
+        "Course Name": "人工智慧在音樂上的應用\nApplications on Music AI",
+        "Teacher": "林怡君\nLIN, I-CHUN",
+        "Enrollment": "46",
+        "Avg (Percent)": 84.26,
+        "Std Dev (Percent)": 9.88
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420GE  154300",
         "Course Name": "美國研究\nAmerican Studies",
         "Teacher": "何志勇\nHO, CHIH-YUNG",
@@ -279751,6 +279850,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420GE  199600",
+        "Course Name": "音樂創作\nWrite Some Notes for Music",
+        "Teacher": "林怡君\nLIN, I-CHUN",
+        "Enrollment": "81",
+        "Avg (Percent)": 86.32,
+        "Std Dev (Percent)": 17.32
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420GEC 110600",
         "Course Name": "知識與實在\nKnowledge and Reality",
         "Teacher": "吳俊業\nNG, CHON IP\r\n\t\t\t\t\t\t\t\t趙之振\nCHIU, CHI-CHUN",
@@ -279910,6 +280018,15 @@
         "Enrollment": "26",
         "Avg (Percent)": 76,
         "Std Dev (Percent)": 25.99
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420GEC 130600",
+        "Course Name": "藝術經典：台灣電影賞析\nClassic of Art : Analysis of Taiwan Cinema",
+        "Teacher": "蕭菊貞\nHSIAO, CHU-CHEN",
+        "Enrollment": "111",
+        "Avg GPA": 3.88,
+        "Std Dev (GPA)": 0.55
     },
     {
         "Semester": "114-2",
@@ -280297,6 +280414,24 @@
         "Enrollment": "15",
         "Avg (Percent)": 92.67,
         "Std Dev (Percent)": 4.22
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420HIS 213100",
+        "Course Name": "歷史文化經典：中國上古歷史人物淺談\nAn Analysis of Chinese Historical Personages",
+        "Teacher": "許松源\nSHU, SUNG-YUAN",
+        "Enrollment": "69",
+        "Avg (Percent)": 83.07,
+        "Std Dev (Percent)": 18.05
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420HIS 214100",
+        "Course Name": "歷史文化經典：資治通鑑--楚漢相爭\nTzu-chih-tung-chien: Narratives of the Power Struggle Between Chu and Han",
+        "Teacher": "許松源\nSHU, SUNG-YUAN",
+        "Enrollment": "66",
+        "Avg (Percent)": 83.14,
+        "Std Dev (Percent)": 12.52
     },
     {
         "Semester": "114-2",
@@ -280711,6 +280846,15 @@
         "Enrollment": "16",
         "Avg GPA": 4.11,
         "Std Dev (GPA)": 0.26
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420HSS 350400",
+        "Course Name": "台灣南島社會與文化\nSocieties and Cultures of Austronesian  Taiwan",
+        "Teacher": "顧坤惠\nKU, KUN-HUI",
+        "Enrollment": "16",
+        "Avg GPA": 3.32,
+        "Std Dev (GPA)": 0.94
     },
     {
         "Semester": "114-2",
@@ -284548,6 +284692,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420KELN506600",
+        "Course Name": "教育史哲專題研究\nSpecial Issues in Educational History and Philosophy",
+        "Teacher": "孫千雅\nSUN, CHIEN-YA",
+        "Enrollment": "16",
+        "Avg (Percent)": 84.81,
+        "Std Dev (Percent)": 2.92
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420KELN506900",
         "Course Name": "台灣教育史專題研究\nSpecial issues in history of Taiwan education",
         "Teacher": "彭煥勝\nPENG, HUAN-SHENG",
@@ -286645,6 +286798,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420LANG102001",
+        "Course Name": "中高級英文二\nUpper-Intermediate English II",
+        "Teacher": "徐桂平\nHSU, KUEI-PING",
+        "Enrollment": "30",
+        "Avg (Percent)": 77.6,
+        "Std Dev (Percent)": 8.59
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420LANG102002",
         "Course Name": "中高級英文二\nUpper-Intermediate English II",
         "Teacher": "劉美慈\nLIU MEI-TZU",
@@ -286672,6 +286834,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420LANG102008",
+        "Course Name": "中高級英文二\nUpper-Intermediate English II",
+        "Teacher": "徐桂平\nHSU, KUEI-PING",
+        "Enrollment": "30",
+        "Avg (Percent)": 79.6,
+        "Std Dev (Percent)": 5.28
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420LANG102011",
         "Course Name": "中高級英文二\nUpper-Intermediate English II",
         "Teacher": "張華芸\nCHANG, HUA-YUN",
@@ -286696,6 +286867,15 @@
         "Enrollment": "22",
         "Avg (Percent)": 84.09,
         "Std Dev (Percent)": 5.45
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420LANG102020",
+        "Course Name": "中高級英文二\nUpper-Intermediate English II",
+        "Teacher": "徐桂平\nHSU, KUEI-PING",
+        "Enrollment": "17",
+        "Avg (Percent)": 76.53,
+        "Std Dev (Percent)": 7.41
     },
     {
         "Semester": "114-2",
@@ -287824,6 +288004,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420LS  390201",
+        "Course Name": "書報討論\nSeminar",
+        "Teacher": "王雯靜\nWANG, WEN-CHING",
+        "Enrollment": "10",
+        "Avg (Percent)": 88.8,
+        "Std Dev (Percent)": 5.95
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420LS  390202",
         "Course Name": "書報討論\nSeminar",
         "Teacher": "李以如\nLEE, I-JU",
@@ -288283,6 +288472,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420LSC 104400",
+        "Course Name": "生命科學與醫學學術英文溝通\nEnglish for Academic Communication in Life Sciences and Medicine",
+        "Teacher": "陳子福\nTAN, CHOO HOCK\r\n\t\t\t\t\t\t\t\t廖品超\nLIAO, PIN-CHAO\r\n\t\t\t\t\t\t\t\t李以如\nLEE, I-JU\r\n\t\t\t\t\t\t\t\t周雅菁\nYA-CHING CHOU",
+        "Enrollment": "6",
+        "Avg GPA": 4.2,
+        "Std Dev (GPA)": 0.14
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420LSC 230200",
         "Course Name": "生物化學二\nBiochemistry II",
         "Teacher": "詹鴻霖\nCHAN, HONG-LIN\r\n\t\t\t\t\t\t\t\t劉姿吟\nLIU, TZU-YIN\r\n\t\t\t\t\t\t\t\t李以如\nLEE, I-JU",
@@ -288445,6 +288643,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420LSMC674300",
+        "Course Name": "癌症代謝特論一\nSpecial Topics on Cancer Metabolism I",
+        "Teacher": "王雯靜\nWANG, WEN-CHING",
+        "Enrollment": "3",
+        "Avg (Percent)": 94,
+        "Std Dev (Percent)": 1.41
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420LSMC675200",
         "Course Name": "腫瘤病毒學特論二\nSpecial Topics on Tumor Viruses II",
         "Teacher": "王慧菁\nWANG, HUI-CHING",
@@ -288595,6 +288802,15 @@
         "Enrollment": "4",
         "Avg GPA": 4.3,
         "Std Dev (GPA)": 0
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420LSSN510800",
+        "Course Name": "高等計算神經科學\nAdvanced Computational Neuroscience",
+        "Teacher": "羅中泉\nLO, CHUNG-CHUAN",
+        "Enrollment": "13",
+        "Avg GPA": 4.13,
+        "Std Dev (GPA)": 0.3
     },
     {
         "Semester": "114-2",
@@ -289676,6 +289892,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420MPM 500500",
+        "Course Name": "國際政治經濟學\nInternational Political Economy",
+        "Teacher": "黃朝熙\nHUANG, CHAO-HSI\r\n\t\t\t\t\t\t\t\t李翎帆\nLI, LING-FAN\r\n\t\t\t\t\t\t\t\t蔡璧涵\nTSAI, PI-HAN",
+        "Enrollment": "22",
+        "Avg GPA": 4.22,
+        "Std Dev (GPA)": 0.13
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420MPM 500800",
         "Course Name": "政府與企業\nGovernment  and Business",
         "Teacher": "吳世英\nWU, SHIH-YING\r\n\t\t\t\t\t\t\t\t劉瑞華\nLIU, RUEY-HUA",
@@ -290033,6 +290258,15 @@
         "Enrollment": "3",
         "Avg GPA": 3.77,
         "Std Dev (GPA)": 0.56
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420MS  530300",
+        "Course Name": "二維量子材料之量測技術\nMeasurements of two-dimensional quantum materials",
+        "Teacher": "李奕賢\nLEE, YI-HSIEN",
+        "Enrollment": "21",
+        "Avg (Percent)": 87.9,
+        "Std Dev (Percent)": 1.82
     },
     {
         "Semester": "114-2",
@@ -291856,7 +292090,7 @@
         "Semester": "114-2",
         "Course No": "11420PHIL591300",
         "Course Name": "黑格爾哲學導讀\nIntroduction to Hegel’s Philosophy",
-        "Teacher": "黃正春\nWONG CHING CHUN",
+        "Teacher": "黃正春",
         "Enrollment": "5",
         "Avg GPA": 4.06,
         "Std Dev (GPA)": 0.22
@@ -292448,6 +292682,24 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420PME 101601",
+        "Course Name": "工場實習\nWork Shop Practices",
+        "Teacher": "李明蒼\nLEE, MING-TSANG",
+        "Enrollment": "63",
+        "Avg (Percent)": 83.02,
+        "Std Dev (Percent)": 3.48
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420PME 101602",
+        "Course Name": "工場實習\nWork Shop Practices",
+        "Teacher": "李明蒼\nLEE, MING-TSANG",
+        "Enrollment": "53",
+        "Avg (Percent)": 83.34,
+        "Std Dev (Percent)": 2.55
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420PME 134101",
         "Course Name": "應用力學一\nApplied Mechanics I",
         "Teacher": "江國寧\nCHIANG, KUO-NING",
@@ -292664,6 +292916,15 @@
     },
     {
         "Semester": "114-2",
+        "Course No": "11420PME 400300",
+        "Course Name": "專題研究一\nResearch on special topics",
+        "Teacher": "指導教授",
+        "Enrollment": "104",
+        "Avg GPA": 4.01,
+        "Std Dev (GPA)": 0.28
+    },
+    {
+        "Semester": "114-2",
         "Course No": "11420PME 400700",
         "Course Name": "機器人製作與競賽實務專題\nDesign and Manufacture for Robot Competition Project",
         "Teacher": "陳榮順\nCHEN, RONG-SHUN",
@@ -292787,6 +293048,15 @@
         "Enrollment": "97",
         "Avg (Percent)": 81.18,
         "Std Dev (Percent)": 2.8
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420PME 514400",
+        "Course Name": "兩相流\nTwo-Phase Flow",
+        "Teacher": "李明蒼\nLEE, MING-TSANG",
+        "Enrollment": "10",
+        "Avg (Percent)": 84.4,
+        "Std Dev (Percent)": 2.42
     },
     {
         "Semester": "114-2",
@@ -293048,6 +293318,15 @@
         "Enrollment": "42",
         "Avg (Percent)": 76.38,
         "Std Dev (Percent)": 15.28
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420QF  214900",
+        "Course Name": "高等微積分一\nAdvanced Calculus I",
+        "Teacher": "陳柏揚\nCHAN, PAK-YEUNG",
+        "Enrollment": "63",
+        "Avg GPA": 2.94,
+        "Std Dev (GPA)": 0.96
     },
     {
         "Semester": "114-2",
@@ -293372,6 +293651,24 @@
         "Enrollment": "11",
         "Avg (Percent)": 91.09,
         "Std Dev (Percent)": 1.56
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420SNHC710000",
+        "Course Name": "書報討論\nSeminar",
+        "Teacher": "SNHC Program",
+        "Enrollment": "5",
+        "Avg (Percent)": 97.6,
+        "Std Dev (Percent)": 2.8
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420SNHC731000",
+        "Course Name": "自然語言與資訊檢索於社群網路之應用\nIntro. to Natural Language Processing and Information Retrieval with Applications in Social Networks",
+        "Teacher": "SNHC Program",
+        "Enrollment": "1",
+        "Avg (Percent)": 85,
+        "Std Dev (Percent)": 0
     },
     {
         "Semester": "114-2",
@@ -294182,6 +294479,24 @@
         "Enrollment": "10",
         "Avg GPA": 3.69,
         "Std Dev (GPA)": 1.25
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420THC 105000",
+        "Course Name": "創新領導專題(三)\nInnovative Leadership Seminar (3)",
+        "Teacher": "賴郁雯\nLAI,YUWEN",
+        "Enrollment": "15",
+        "Avg GPA": 4.24,
+        "Std Dev (GPA)": 0.16
+    },
+    {
+        "Semester": "114-2",
+        "Course No": "11420THC 105100",
+        "Course Name": "創新領導專題(五)\nInnovative Leadership Seminar (5)",
+        "Teacher": "賴郁雯\nLAI,YUWEN",
+        "Enrollment": "11",
+        "Avg GPA": 4.25,
+        "Std Dev (GPA)": 0.12
     },
     {
         "Semester": "114-2",
