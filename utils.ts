@@ -7,7 +7,6 @@ export const password: string = '你的密碼';
 // ================== configs ===================
 export const year: number = 114;				// 預設民國年
 export const semester: 10 | 20 = 10;			// 10: 上學期, 20: 下學期
-export const skipConfirm = false;				// 是否跳過確認步驟
 export const path = './data/';					// 儲存資料的路徑
 // ==============================================
 

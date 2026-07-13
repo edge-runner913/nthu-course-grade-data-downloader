@@ -9,7 +9,7 @@ import {
 	Course
 } from "./gradeData.js";
 import { enrollment } from "./enrollment.js";
-import { year, semester, skipConfirm, path, account, password, delay } from "./utils.js";
+import { year, semester, path, account, password, delay } from "./utils.js";
 
 interface Choices {
 	name: string;
@@ -49,7 +49,47 @@ async function main(account: string, password: string) {
 
 	switch (mode) {
 		case 'GradeData': {
-			const { format, year: y, semester: s } = await gradeData(token, year, semester, skipConfirm);
+			const time = new Date();
+			const { confirmation } = await inquirer.prompt([{
+				type: "list",
+				name: "confirmation",
+				message: `是否查詢： ${year} 學年度 ${semester === 10 ? '上學期' : '下學期'} 的資料？`,
+				choices: [
+					{ name: "是", value: true },
+					{ name: "否 (重新輸入)", value: false },
+				],
+				pageSize: 2,
+			}]);
+			// 彌彰看到會扣光分數的三元運算子
+			const [y, s]: [number, 10 | 20] = (confirmation) ? [year, semester] : await (async () => {
+				const { a, b } = await inquirer.prompt([
+					{
+						type: "number",
+						name: "a",
+						message: "請輸入年份(民國年，最早為 109 年)",
+						default: year,
+						validate: (input: unknown) => (
+							typeof input === "number" &&
+							Number.isInteger(input) &&
+							input >= 109 && // NTHU 的資料從 109 年開始有
+							input <= time.getFullYear() - 1911) ||
+							"請輸入有效範圍的數字",
+					},
+					{
+						type: "list",
+						name: "b",
+						message: "請選擇學期",
+						choices: [
+							{ name: "上學期", value: 10 },
+							{ name: "下學期", value: 20 },
+						],
+						default: semester,
+						pageSize: 2,
+					},
+				]);
+				return [a, b];
+			})();
+			const format = await gradeData(token, y, s);
 			fs.writeFileSync(path + `courses_${y}_${s / 10}.json`, JSON.stringify(format, null, 4));
 			break;
 		}
@@ -58,9 +98,8 @@ async function main(account: string, password: string) {
 			const courses: Course[] = [];
 			for (let i = 109; i <= 114; i++) {
 				for (const semester of arr) {
-					const courseData = (await gradeData(token, i, semester, true)).format;
+					const courseData = await gradeData(token, i, semester);
 					courses.push(...courseData);
-					await delay(500); // 避免請求過於頻繁
 					fs.writeFileSync(path + `courses_${i}_${semester / 10}.json`, JSON.stringify(courseData, null, 4));
 				}
 			}

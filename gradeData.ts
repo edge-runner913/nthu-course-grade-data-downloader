@@ -23,53 +23,11 @@ export interface Course {
 	'Std Dev (Percent)'?: number
 }
 
-export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, b: 10 | 20, skip?: boolean): Promise<{ format: Course[], year: number, semester: 10 | 20 }> {
+export async function gradeData(ACIXSTORE: string | Promise<string>, year: number, semester: 10 | 20): Promise<Course[]> {
 	// 確保 data 資料夾存在
 	if (!fs.existsSync(path)) {
 		fs.mkdirSync(path);
 	}
-
-	const time = new Date();
-	const { confirmation } = (skip) ? { confirmation: true } : await inquirer.prompt([{
-		type: "list",
-		name: "confirmation",
-		message: `是否查詢： ${a} 學年度 ${b === 10 ? '上學期' : '下學期'} 的資料？`,
-		choices: [
-			{ name: "是", value: true },
-			{ name: "否 (重新輸入)", value: false },
-		],
-		pageSize: 2,
-	}]);
-
-	// 彌彰看到會扣光分數的三元運算子
-	const [year, semester]: [number, 10 | 20] = (confirmation) ? [a, b] : await (async () => {
-		const { year, semester } = await inquirer.prompt([
-			{
-				type: "number",
-				name: "year",
-				message: "請輸入年份(民國年，最早為 109 年)",
-				default: a,
-				validate: (input: unknown) => (
-					typeof input === "number" &&
-					Number.isInteger(input) &&
-					input >= 109 && // NTHU 的資料從 109 年開始有
-					input <= time.getFullYear() - 1911) ||
-					"請輸入有效範圍的數字",
-			},
-			{
-				type: "list",
-				name: "semester",
-				message: "請選擇學期",
-				choices: [
-					{ name: "上學期", value: 10 },
-					{ name: "下學期", value: 20 },
-				],
-				default: b,
-				pageSize: 2,
-			},
-		]);
-		return [year, semester];
-	})();
 	const name = `NTHU_${year}_${semester / 10}.html`;
 
 	const url = "https://www.ccxp.nthu.edu.tw/ccxp/INQUIRE/JH/8/8.4/8.4.2/JH84202.php"
@@ -89,13 +47,11 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 		const loader_remove = loading(); // 開始 loading 動畫
 
 		console.info(`正在查詢： ${year} 學年度 ${semester === 10 ? '上學期' : '下學期'} 的資料...`);
-		const response = await axios.post(url, payload, { headers, responseType: 'arraybuffer' })
+		const response = await axios.post(url, payload, { headers, responseType: 'arraybuffer', timeout: 60000 })
 			.then((arrayBuffer) => decoder.decode(new Uint8Array(arrayBuffer.data)))
 			.then((html) => html.replace(/<p><input[^>]*Back[^<]*><\/p>/g, '')); // 把回上一頁 Back 的按鈕拿掉
 
 		loader_remove();
-
-
 
 		if (!response.includes('課程')) {
 			if (response.includes('session is interrupted')) {
@@ -108,14 +64,10 @@ export async function gradeData(ACIXSTORE: string | Promise<string>, a: number, 
 
 		fs.writeFileSync(path + name, response.replace('charset=big5', 'charset=UTF-8'));
 		console.info(`已將結果存成 ${name} 。`);
-		return {
-			format,
-			year,
-			semester
-		};
+		return format;
 	} catch (err) {
 		console.error('錯誤：', err);
-		return { format: [], year: a, semester: b };
+		return [];
 	}
 }
 
