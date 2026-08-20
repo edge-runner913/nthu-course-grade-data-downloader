@@ -9,7 +9,7 @@ import {
 	Course
 } from "./gradeData.js";
 import { enrollment } from "./enrollment.js";
-import { year, semester, path, account, password, delay } from "./utils.js";
+import { year, semester, path, en_path, account, password, delay } from "./utils.js";
 
 interface Choices {
 	name: string;
@@ -124,7 +124,7 @@ async function main(account: string, password: string) {
 			for (const course of dept) {
 				tasks.push(
 					enrollment(token, course.value).then(
-						(courses) => fs.writeFileSync("./test/" + `enrollment_${course.value}.json`, JSON.stringify(courses, null, 4))
+						(courses) => fs.writeFileSync(en_path + `enrollment_${course.value}.json`, JSON.stringify(courses, null, 4))
 					)
 				)
 				await delay(500); // 避免請求過於頻繁

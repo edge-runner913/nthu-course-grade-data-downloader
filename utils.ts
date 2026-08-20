@@ -8,6 +8,7 @@ export const password: string = '你的密碼';
 export const year: number = 114;				// 預設民國年
 export const semester: 10 | 20 = 10;			// 10: 上學期, 20: 下學期
 export const path = './data/';					// 儲存資料的路徑
+export const en_path = './enrollment/';			// 加退選檔案路徑
 // ==============================================
 
 

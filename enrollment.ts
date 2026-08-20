@@ -8,7 +8,7 @@ import {
 	HTMLTableElement,
 	parseHTML,
 } from "linkedom/worker";
-import { decoder, loading } from "./utils.js";
+import { decoder, en_path, loading } from "./utils.js";
 
 export interface Enrollment {
 	'Course No': string
@@ -26,6 +26,10 @@ export interface Enrollment {
 type value = null | number;
 
 export async function enrollment(ACIXSTORE: string | Promise<string>, courseId: string) {
+	// 確保 enrollment 資料夾存在
+	if (!fs.existsSync(en_path)) {
+		fs.mkdirSync(en_path);
+	}
 	const url = "https://www.ccxp.nthu.edu.tw/ccxp/COURSE/JH/7/7.2/7.2.7/JH727002.php"
 	const name = `NTHU_${courseId}_enrollment.html`;
 
@@ -58,7 +62,7 @@ export async function enrollment(ACIXSTORE: string | Promise<string>, courseId: 
 		const isGE = (courseId === "GE") || (courseId === "GEC");
 		const format = formatCourses(response, isGE);
 
-		fs.writeFileSync(name, response.replace('charset=big5', 'charset=UTF-8')); // 直接把 big5 換成 UTF-8 就好啦
+		fs.writeFileSync(en_path + name, response.replace('charset=big5', 'charset=UTF-8')); // 直接把 big5 換成 UTF-8 就好啦
 		console.info(`已將結果存成 ${name} 。`);
 		return format;
 	} catch (err) {
@@ -96,7 +100,7 @@ export async function formatCourses(html: string, isGE: boolean = false, dataArr
 
 		// 有些核心通識，課號不一定包含 "GE"
 		const thirdCellText = cells[3]?.textContent?.trim() || "";
-		const ge = (isGE || thirdCellText.startsWith("向度") || courseNo.includes("GE"))? 1 : 0;
+		const ge = (isGE || thirdCellText.startsWith("向度") || courseNo.includes("GE")) ? 1 : 0;
 		let GE_Category: number | null | undefined;
 		if (ge) {
 			const GE_CategoryStr = thirdCellText;
