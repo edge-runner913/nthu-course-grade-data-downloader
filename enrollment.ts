@@ -45,8 +45,8 @@ export async function enrollment(ACIXSTORE: string | Promise<string>, courseId: 
 	};
 
 	try {
-		const loader = loading(); // 開始 loading 動畫
-		console.info(`正在查詢 ${courseId} 的選課人數...`);
+		const loader = loading(`正在查詢 ${courseId} 的選課人數...`, `✅ 已將結果存成 ${name} 。`); // 開始 loading 動畫
+		//console.info(`正在查詢 ${courseId} 的選課人數...`);
 		const response = (await axios.post(url, payload, {
 			headers,
 			responseType: 'arraybuffer',
@@ -63,10 +63,11 @@ export async function enrollment(ACIXSTORE: string | Promise<string>, courseId: 
 		const format = formatCourses(response, isGE);
 
 		fs.writeFileSync(en_path + name, response.replace('charset=big5', 'charset=UTF-8')); // 直接把 big5 換成 UTF-8 就好啦
-		console.info(`已將結果存成 ${name} 。`);
+		//console.info(`已將結果存成 ${name} 。`);
 		return format;
 	} catch (err) {
 		console.error('錯誤：', err);
+		throw err;
 	}
 }
 

@@ -10,6 +10,7 @@ import {
 } from "./gradeData.js";
 import { enrollment } from "./enrollment.js";
 import { year, semester, path, en_path, account, password, delay } from "./utils.js";
+import { AxiosError } from "axios";
 
 interface Choices {
 	name: string;
@@ -122,11 +123,19 @@ async function main(account: string, password: string) {
 		case "AllEnrollment": {
 			const tasks: Promise<void>[] = [];
 			for (const course of dept) {
-				tasks.push(
-					enrollment(token, course.value).then(
-						(courses) => fs.writeFileSync(en_path + `enrollment_${course.value}.json`, JSON.stringify(courses, null, 4))
-					)
-				)
+				tasks.push(enrollment(token, course.value).then(
+					(courses) => fs.writeFileSync(en_path + `enrollment_${course.value}.json`, JSON.stringify(courses, null, 4))
+				).catch((err) => {
+					if (err instanceof AxiosError) {
+						if (err.code === 'ECONNABORTED') {
+							console.error(`⏱️ 查詢 ${course.value} 選課人數逾時。`);
+							return;
+						}
+						console.error(`❌ 查詢 ${course.value} 選課人數失敗：`, err.message);
+						return;
+					}
+					console.error(`❌ 查詢 ${course.value} 選課人數失敗：`, err?.message || err);
+				}));
 				await delay(500); // 避免請求過於頻繁
 			}
 			await Promise.all(tasks);

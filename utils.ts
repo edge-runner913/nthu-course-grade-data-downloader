@@ -14,15 +14,15 @@ export const en_path = './enrollment/';			// 加退選檔案路徑
 
 export const decoder = new TextDecoder('big5'); // NTHU 的系統使用 Big5 編碼
 
-export const loading = (hint = "正在從 NTHU 下載資料...") => {
+export const loading = (hint = "正在從 NTHU 下載資料...", end_hint = `✅ 資料下載完成！` + ' '.repeat(20)): () => void => {
 	const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
 	let i = 0;
 	const loader = setInterval(() => {
 		process.stdout.write(`\r\r${frames[i++ % frames.length]} ${hint}`);
 	}, 100);
 	return () => {
-		console.info(`\r✅ 資料下載完成！` + ' '.repeat(20)); // 清除 loading 字串
-		clearInterval(loader);
+		clearInterval(loader!);
+		console.log("\r\x1b[K" + end_hint);
 	};
 }
 export interface Choices {
